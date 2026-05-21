@@ -6,7 +6,7 @@ package practice836;
 /**
  * 
  */
-public class Product {
+public abstract class Product {
 	private String code;
 	private String name;
 	

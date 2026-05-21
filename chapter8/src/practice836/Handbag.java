@@ -1,39 +1,47 @@
 package practice836;
 
-public class Handbag extends Productinfo{
-	private int size(1:小, 2:中, 3:大);
+public class Handbag extends Productinfo {
+	private int size;
     
 	public Handbag(String code, String name, int size) {
-		this.code = code;
-		this.name = name;
+		super(code, name);
 		this.size = size;
 	}
-	var s = size;
+	@Override
 	public int shipping() {
-		if (s == 1) {
+		if (size == 1) {
 			return 500;
-		}else if (s == 2) {
+		}else if (size == 2) {
 			return 700;
 		}else {
 			return 1000;
 		}
+		
+		@Override
 		public int handling() {
-			if (s >= 2) {
+			if (size >= 2) {
 				return 200;
 			}else {
 				return 0;
 			}
 			}
-		var c = code.substring(0, 3);
+		@Override
+		
 		public int price() {
-			if(c == "SIG") {
+			String c = getCode().substring(0, 3);
+			
+			if(c.equals("SIG")) {
 				return 10000;
-			}else if (c == "SHO") {
+			}else if (c.equals("SHO")) {
 				return 12000;
 			}else {
 				return 15000;
 			}
 		}
+		
+		@Override
+		public String info() {
+			return "バッグ ; " + super.info();
 		
 	}
 
