@@ -1,28 +1,28 @@
-//package practice92;
-//
-//public class ExceptionTest {
-//
-//	public static void main(String[] args) {
-//		// TODO 自動生成されたメソッド・スタブ
-//     int a;
-//     int b;
-//     int c;
-//    
-//     try(TriangleException()){
-//    	 System.out.println("辺A : " + a);
-//    	 System.out.println("辺b : " + b);
-//    	 System.out.println("辺c : " + c);
-//    	 System.out.println(TriangleException()) &&
-//    	 if(true) {
-//    		 System.out.println("面積 : ");
-//    	 }
-//      }
-//    	  
-//      }
-//     }
-//	}
-//
-//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 package practice92;
 
