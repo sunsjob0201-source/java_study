@@ -1,0 +1,16 @@
+package Stream;
+
+import java.util.stream.Stream;
+
+public class StreamBuild {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+      var builder = Stream.builder()
+    	.add("いちじく")
+    	.add("にんじん")
+    	.add("さんしょ");
+      builder.build().forEach(System.out::println);
+	}
+
+}
