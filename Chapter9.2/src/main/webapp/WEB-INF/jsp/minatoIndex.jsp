@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="model.SiteEV"  %>
+<%@ page import="listener.SiteEV"  %>
 <% 
 SiteEV siteEV = (SiteEV)application.getAttribute("siteEV");
 %>
