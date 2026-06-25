@@ -57,5 +57,6 @@ String errorMsg = (String)request.getAttribute("errorMsg");
 
 </form>
 
+<p><a href="WelcomeServlet">トップへ</a></p>
 </body>
 </html>

@@ -12,5 +12,6 @@
 パスワード:<input type="password"  name="pass"><br>
 <input type="submit" value="ログイン">
 </form>
+<p><a href="WelcomeServlet">トップへ</a></p>
 </body>
 </html>

@@ -41,7 +41,35 @@ public class UserServlet extends HttpServlet {
 		String pass = request.getParameter("pass");
 		String mail = request.getParameter("mail");
 		String name = request.getParameter("name");
-		int age = Integer.parseInt(request.getParameter("age"));
+		String ageStr = request.getParameter("age");
+		
+		String errorMsg = "";
+		
+		if (userId == null || userId.isEmpty()) {
+			errorMsg += "ユーザーIDが入力されていません。<br>";
+		}
+		if (pass == null || pass.isEmpty()) {
+			errorMsg += "パスワードが入力されていません。<br>";
+		}
+		if (mail == null || mail.isEmpty()) {
+			errorMsg += "メールアドレスが入力されていません。<br>";
+		}
+		if (name == null || name.isEmpty()) {
+			errorMsg += "姓名が入力されていません。<br>";
+		}
+		if (ageStr == null || ageStr.isEmpty()) {
+			errorMsg += "年齢が入力されていません。<br>";
+		}
+		
+		if (!errorMsg.isEmpty()) {
+			request.setAttribute("errorMsg", errorMsg);
+			
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("/WEB-INF/jsp/user.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		int age = Integer.parseInt(ageStr);
 		
 		Account account =
 				new Account(userId, pass, mail, name, age);
@@ -50,6 +78,8 @@ public class UserServlet extends HttpServlet {
 		boolean result = logic.execute(account);
 		
 		if (result) {
+			request.setAttribute("account", account);
+			
 			RequestDispatcher dispatcher =
 					request.getRequestDispatcher("/WEB-INF/jsp/userOK.jsp");
 			dispatcher.forward(request, response);
