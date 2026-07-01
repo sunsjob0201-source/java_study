@@ -94,12 +94,12 @@ public class Main extends HttpServlet {
 
         if (text != null && text.length() != 0) {
             Mutter mutter =
-                    new Mutter(loginUser.getName(), text);
+                    new Mutter(loginUser.getId(), loginUser.getName(), text);
 
             PostMutterLogic postMutterLogic =
                     new PostMutterLogic();
 
-            postMutterLogic.execute(mutter, mutterList);
+            postMutterLogic.execute(mutter);
 
             response.sendRedirect("Main");
         } else {

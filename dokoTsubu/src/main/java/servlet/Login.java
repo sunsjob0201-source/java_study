@@ -28,11 +28,11 @@ public class Login extends HttpServlet {
 		User user = new User(name, pass);
 
 		LoginLogic loginLogic = new LoginLogic();
-		boolean isLogin = loginLogic.execute(user);
+		User loginUser = loginLogic.execute(user);
 
-		if (isLogin) {
+		if (loginUser != null) {
 			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", user);
+			session.setAttribute("loginUser", loginUser);
 		}
 
 		RequestDispatcher dispatcher =
