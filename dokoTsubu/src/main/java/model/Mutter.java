@@ -10,6 +10,7 @@ public class Mutter implements Serializable{
 	private String userName; //ユーザー名
 	private String text; // つぶやき内容
 	private LocalDateTime postTime; //投稿時間
+	private String imagePath; //画像パス
     
 		
     public Mutter() {}
@@ -22,12 +23,13 @@ public class Mutter implements Serializable{
     }
     
     //DBから取り出すとき用
-    public Mutter(int id, int userId, String userName, String text, LocalDateTime postTime) {
+    public Mutter(int id, int userId, String userName, String text, LocalDateTime postTime, String imagePath) {
     	this.id = id;
     	this.userId = userId;
     	this.userName = userName;
     	this.text = text;
     	this.postTime = postTime;
+    	this.imagePath = imagePath;
     }
     
     public int getId() { return id; }
@@ -35,7 +37,12 @@ public class Mutter implements Serializable{
     public String getUserName() { return userName; }
     public String getText() { return text; }
     public LocalDateTime getPostTime() { return postTime; }
+    public String getImagePath() { return imagePath; }
     
+    public void setImagePath(String imagePath) {
+    	this.imagePath = imagePath;
+    }
+   
     public String getFormattedTime() {
     	if (postTime == null) {
     		return "";

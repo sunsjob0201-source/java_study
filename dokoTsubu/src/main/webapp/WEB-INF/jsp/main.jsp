@@ -17,16 +17,60 @@ LocalDateTime lastReadTime =
 <head>
 <meta charset="UTF-8">
 <title>どこつぶ</title>
+
 <style>
 body {
-    max-width: 700px;
-    margin: auto;
+    background-color: #f5f7fa;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+header {
+    background: #2196F3;
+    color: white;
+    padding: 15px;
+}
+
+main {
+    width: 760px;
+    margin: 30px auto;
+}
+
+.loginInfo {
+    margin-bottom: 15px;
+}
+
+textarea {
+    width: 700px;
+    height: 80px;
+    border-radius: 8px;
     padding: 10px;
+    font-size: 16px;
+}
+
+button,
+input[type="submit"] {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background: #1976D2;
 }
 
 .mutter {
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px auto;
+    width: 700px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow-wrap: break-word;
 }
 
 .topLine {
@@ -45,11 +89,12 @@ body {
 .time {
     color: gray;
     font-size: 0.8em;
-    margin-top: 4px;
+    margin-top: 8px;
 }
 
 .deleteForm {
-    display: inline;
+    text-align: right;
+    margin-left: 10px;
 }
 
 .unread {
@@ -62,72 +107,96 @@ body {
     font-weight: bold;
     margin-left: 5px;
 }
+
+.postImage {
+    margin-top: 10px;
+    max-width: 300px;
+    border-radius: 8px;
+    display: block;
+}
 </style>
 </head>
+
 <body>
 
-<h1>どこつぶメイン</h1>
+<header>
+    <h1>どこつぶメイン</h1>
+</header>
 
-<p>
-<%= loginUser.getName() %>さん、ログイン中
-<a href="Logout">ログアウト</a>
+<main>
+
+<p class="loginInfo">
+    <%= loginUser.getName() %>さん、ログイン中
+    <a href="Logout">ログアウト</a>
 </p>
 
 <p><a href="Main">更新</a></p>
 
-<form action="Main" method="post">
-    <input type="text" name="text">
-    <input type="submit" value="つぶやく">
+<form action="Main" method="post" enctype="multipart/form-data">
+    <textarea name="text"></textarea><br>
+    <input type="file" name="image" accept="image/*"><br><br>
+    <button type="submit">投稿</button>
 </form>
 
 <% if (errorMsg != null) { %>
     <p><%= errorMsg %></p>
 <% } %>
 
-<% for (Mutter mutter : mutterList) { %>
+<% if (mutterList != null) { %>
 
-<%
-boolean unread =
-    lastReadTime != null &&
-    mutter.getPostTime().isAfter(lastReadTime);
-%>
+    <% for (Mutter mutter : mutterList) { %>
 
-<div class="mutter <%= unread ? "unread" : "" %>">
+    <%
+    boolean unread =
+        lastReadTime != null &&
+        mutter.getPostTime().isAfter(lastReadTime);
+    %>
 
-    <div class="topLine">
+    <div class="mutter <%= unread ? "unread" : "" %>">
 
-        <div class="text">
-            <strong><%= mutter.getUserName() %></strong>
-            : <%= mutter.getText() %>
+        <div class="topLine">
 
-            <% if (unread) { %>
-                <span class="unreadLabel">NEW</span>
+            <div class="text">
+                <strong><%= mutter.getUserName() %></strong>
+                : <%= mutter.getText() %>
+
+                <% if (unread) { %>
+                    <span class="unreadLabel">NEW</span>
+                <% } %>
+
+                <% if (mutter.getImagePath() != null && !mutter.getImagePath().isEmpty()) { %>
+                    <img class="postImage"
+                         src="<%= request.getContextPath() %>/<%= mutter.getImagePath() %>">
+                <% } %>
+            </div>
+
+            <% if (mutter.getUserName().equals(loginUser.getName())) { %>
+                <form action="DeleteMutter"
+                      method="post"
+                      class="deleteForm">
+
+                    <input type="hidden"
+                           name="id"
+                           value="<%= mutter.getId() %>">
+
+                    <input type="submit"
+                           value="削除">
+                </form>
             <% } %>
+
         </div>
 
-        <% if (mutter.getUserName().equals(loginUser.getName())) { %>
-            <form action="DeleteMutter"
-                  method="post"
-                  class="deleteForm">
-
-                <input type="hidden"
-                       name="id"
-                       value="<%= mutter.getId() %>">
-
-                <input type="submit"
-                       value="削除">
-            </form>
-        <% } %>
+        <div class="time">
+            投稿時間 : <%= mutter.getFormattedTime() %>
+        </div>
 
     </div>
 
-    <div class="time">
-        投稿時間 : <%= mutter.getFormattedTime() %>
-    </div>
-
-</div>
+    <% } %>
 
 <% } %>
+
+</main>
 
 </body>
 </html>

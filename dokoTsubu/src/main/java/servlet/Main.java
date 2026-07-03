@@ -1,24 +1,29 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
+import dao.MutterDAO;
 import model.Mutter;
 import model.PostMutterLogic;
 import model.User;
 
 @WebServlet("/Main")
+@MultipartConfig
+
 public class Main extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -26,16 +31,12 @@ public class Main extends HttpServlet {
             HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-
-        ServletContext application = this.getServletContext();
-
-        List<Mutter> mutterList =
-                (List<Mutter>) application.getAttribute("mutterList");
-
-        if (mutterList == null) {
-            mutterList = new ArrayList<>();
-            application.setAttribute("mutterList", mutterList);
-        }
+        
+        MutterDAO dao = new MutterDAO();
+        List<Mutter> mutterList = dao.findAll();
+        
+        getServletContext().setAttribute("mutterList", mutterList);
+       
 
         HttpSession session = request.getSession();
 
@@ -70,18 +71,6 @@ public class Main extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        String text = request.getParameter("text");
-
-        ServletContext application = this.getServletContext();
-
-        List<Mutter> mutterList =
-                (List<Mutter>) application.getAttribute("mutterList");
-
-        if (mutterList == null) {
-            mutterList = new ArrayList<>();
-            application.setAttribute("mutterList", mutterList);
-        }
-
         HttpSession session = request.getSession();
 
         User loginUser =
@@ -92,25 +81,55 @@ public class Main extends HttpServlet {
             return;
         }
 
-        if (text != null && text.length() != 0) {
-            Mutter mutter =
-                    new Mutter(loginUser.getId(), loginUser.getName(), text);
+        String text = request.getParameter("text");
+        
+        Part imagePart = request.getPart("image");
+        String imagePath = null;
 
-            PostMutterLogic postMutterLogic =
-                    new PostMutterLogic();
+        if (imagePart != null && imagePart.getSize() > 0) {
+            String fileName = 
+            		Paths.get(imagePart.getSubmittedFileName())
+            		.getFileName()
+            		.toString();
+            
+            String savedFileName =
+            		System.currentTimeMillis() + "_" + fileName;
 
-            postMutterLogic.execute(mutter);
+            String uploadPath =
+                getServletContext().getRealPath("/upload");
+            
+            File uploadDir = new File(uploadPath);
 
-            response.sendRedirect("Main");
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            imagePart.write(uploadPath + File.separator + savedFileName);
+
+            imagePath = "upload/" + savedFileName;
+        }
+        
+        if ((text != null && text.length() != 0) || imagePath != null) {
+        	
+        	Mutter mutter =
+        			new Mutter(loginUser.getId(), loginUser.getName(), text);
+        	
+        	mutter.setImagePath(imagePath);
+        	
+        	PostMutterLogic postMutterLogic = new PostMutterLogic();
+        	postMutterLogic.execute(mutter);
+        	
+        	response.sendRedirect("Main");
+        	
         } else {
-            request.setAttribute(
-                    "errorMsg",
-                    "つぶやきが入力されていません");
-
-            RequestDispatcher dispatcher =
-                    request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
-
-            dispatcher.forward(request, response);
+        	request.setAttribute(
+        			"errorMsg",
+        			"つぶやきまたは画像を入力してください");
+        	
+        	RequestDispatcher dispatcher =
+        			request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
+        	
+        	dispatcher.forward(request, response);
         }
     }
 }
