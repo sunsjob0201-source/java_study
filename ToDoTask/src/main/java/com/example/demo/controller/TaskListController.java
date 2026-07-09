@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class TaskListController {
 
 	private final TaskService taskService;
-	@GetMapping("/TaskList")
+	@GetMapping("/tasklist")
 	public String showTaskList(Model model) {
 
 		List<TaskInfo> taskList = taskService.getTaskList();

@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>tasklist</title>
+
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <h1>※※ ToDoタスク管理 ※※</h1>
@@ -39,12 +41,12 @@
                 
                 <c:when test="${task.taskStatus == 1}">
                 <!-- 着手中 -->
-                    <a href="taskdetail">変更・削除へ</a>
+                    <a href="taskdetail?mode=updateDelete&taskId=${task.taskId}">変更・削除へ</a>
                 </c:when>
                 
                 <c:otherwise>
                 <!-- それ以外 -->
-                    <a href="taskdetail">変更へ</a>
+                    <a href="taskdetail?mode=update&taskId=${task.taskId}">変更へ</a>
                 </c:otherwise>    
             </c:choose>
         </td>
@@ -52,7 +54,21 @@
 </c:forEach>
 </table>
 
-<a href=taskdetail>●新規登録へ</a><br>
-<a href=menu>●メニューへ</a>
+<div class="footer-area">
+
+    <div class="footer-left">
+        <a href="taskdetail?mode=insert">●新規登録へ</a><br><br>
+        <a href="menu">●メニューへ</a>
+    </div>
+
+    <div class="footer-right">
+        <div class="login-line"></div>
+        <div class="login-user">
+            ログインユーザー名：${sessionScope.loginUser.userName}
+        </div>
+    </div>
+
+</div>
+ 
 </body>
 </html>

@@ -21,11 +21,11 @@ User loginUser = (User)session.getAttribute("loginUser");
 </p>
 
 <p>
-<a href="TaskList">・ TODOタスク一覧</a>
+<a href="tasklist">・ TODOタスク一覧</a>
 </p>
 
 <p>
-<a href="TaskInsert">・ TODOタスク登録</a>
+<a href="taskdetail?mode=insert">・ TODOタスク登録</a>
 </p>
 
 <form action="Logout" method="post">

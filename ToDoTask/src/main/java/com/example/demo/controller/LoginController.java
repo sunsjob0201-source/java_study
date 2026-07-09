@@ -43,4 +43,8 @@ public class LoginController {
 
         return "login";
     }
+    @GetMapping("/menu")
+    public String showMenu() {
+        return "menu";
+    }
 }

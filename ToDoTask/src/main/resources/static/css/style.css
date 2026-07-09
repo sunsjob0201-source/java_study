@@ -1,0 +1,25 @@
+.footer-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.footer-left {
+    line-height: 1.4;
+}
+
+.footer-right {
+    width: 300px;
+    text-align: right;
+}
+
+.login-line {
+    border-top: 1px solid black;
+    margin-bottom: 5px;
+}
+
+.login-user {
+    white-space: nowrap;
+}
