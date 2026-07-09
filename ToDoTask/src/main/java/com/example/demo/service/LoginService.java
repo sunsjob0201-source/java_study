@@ -1,9 +1,10 @@
-package com.example.demo.model;
+package com.example.demo.service;
 
 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.LoginDAO;
+import com.example.demo.model.User;
 
 import lombok.RequiredArgsConstructor;
 
