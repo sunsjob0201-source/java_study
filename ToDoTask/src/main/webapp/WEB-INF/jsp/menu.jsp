@@ -10,10 +10,16 @@ User loginUser = (User)session.getAttribute("loginUser");
 <head>
 <meta charset="UTF-8">
 <title>Menu</title>
+
+<style>
+.title {
+    color:red;
+}
+</style>
 </head>
 <body>
 
-<h1>※※  ToDoタスク管理  ※※</h1>
+<h1 class="title">※※  ToDoタスク管理  ※※</h1>
 
 <p>
 ようこそ

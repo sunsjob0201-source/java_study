@@ -5,12 +5,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>tasklist</title>
+<title>タスクリスト</title>
+
+<style>
+.title {
+    color:red;
+}
+</style>
 
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<h1>※※ ToDoタスク管理 ※※</h1>
+<h1 class="title" >※※ ToDoタスク管理 ※※</h1>
 <p>【ToDoタスク一覧】</p><br>
 
 <table border="1">
@@ -56,10 +62,17 @@
 
 <div class="footer-area">
 
-    <div class="footer-left">
-        <a href="taskdetail?mode=insert">●新規登録へ</a><br><br>
-        <a href="menu">●メニューへ</a>
-    </div>
+   <p>
+    ●<a href="${pageContext.request.contextPath}/taskdetail?mode=insert">
+        新規登録へ
+    </a>
+</p>
+
+<p>
+    ●<a href="${pageContext.request.contextPath}/menu">
+        メニューへ
+    </a>
+</p>
 
     <div class="footer-right">
         <div class="login-line"></div>
